@@ -4,17 +4,20 @@ import 'antd/dist/antd.css';
 import './index.css';
 import axios from 'axios'
 class login extends Component {
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      console.log(values);
 
+  handleSubmit = e => {
+    let _this = this
+    e.preventDefault();
+    this.props.form.validateFields(async (err, values) => {
       axios.post('/api/jvtc/find_score/api/v1/login', {
-        firstName: values.username,
-        lastName: values.password
+        loginCode: values.username,
+        passWord: values.password
       })
-        .then(function (response) {
-          console.log(response);
+        .then(await function (response) {
+          console.log(response.data.token);
+          if (response.data.token) {
+            _this.props.history.push({ pathname: '/Home', query: { token: response.data.token, loginCode: values.username } })
+          }
         })
         .catch(function (error) {
           console.log(error);
@@ -28,7 +31,6 @@ class login extends Component {
     return (
       <div className="box">
         <div className="from-box">
-
           <Form onSubmit={this.handleSubmit} className="login-form">
             <p className="title">成绩查询系统</p>
             <Form.Item>

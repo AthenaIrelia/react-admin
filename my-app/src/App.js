@@ -4,7 +4,6 @@ import login from './view/login/login'
 import Home from './view/home/home'
 
 function App() {
-  // handleClick(){}
   return (
     <div className="App">
       <BrowserRouter>
